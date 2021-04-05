@@ -1,0 +1,6 @@
+-*- mode: org; mode: visual-line; -*-
+#+STARTUP: indent
+
+* =svgjs-figwheel-main=
+
+A sibling of [threejs-figwheel-main](https://github.com/cassiel/threejs-figwheel-main), targetting SVG generation via SVG.js rather than WebGL. Refer to the =README= in the other project for general setup instructions.
