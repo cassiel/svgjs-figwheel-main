@@ -5,7 +5,7 @@
                                   ;; optional but recommended
                                   [com.bhauman/rebel-readline-cljs "0.1.4"]
 
-                                  [cljsjs/svgjs "2.2.5-0"]
+                                  ;; [cljsjs/svgjs "2.2.5-0"] -- TOO OLD
                                   [com.stuartsierra/component "1.0.0"]
                                   [net.cassiel/lifecycle "0.1.0-SNAPSHOT"]]
                    :resource-paths ["target"]
