@@ -23,6 +23,28 @@
 
 (.remove (js/$ "svg"))
 
-(-> (deref core/S)
-    :svg
-    :svg)
+(when-let [svg (-> (deref core/S)
+                   :svg
+                   :svg)]
+  (-> svg
+      (.rect 100 100)
+      (.attr #js {:fill "#F06"})))
+
+
+(when-let [svg (-> (deref core/S)
+                   :svg
+                   :svg)]
+  (-> svg
+      (.symbol)
+      (.rect 100 100)
+      (.attr #js {:fill "#F06"})))
+
+
+
+(when-let [svg (-> (deref core/S)
+                   :svg
+                   :svg)]
+  (-> svg
+      (.defs)
+      (.rect 100 100)
+      (.attr #js {:fill "#F06"})))
