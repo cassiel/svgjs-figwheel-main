@@ -13,7 +13,8 @@
               :action #(let [svg (js/SVG)]
                          (-> svg
                              (.addTo "#main")
-                             (.size 300 300))
+                             (.size 500 500)
+                             )
                          (assoc this
                                 :svg svg
                                 :installed? true))))

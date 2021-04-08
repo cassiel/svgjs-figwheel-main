@@ -27,7 +27,7 @@
                    :svg
                    :svg)]
   (-> svg
-      (.rect 100 100)
+      (.rect "100%" "100%")
       (.attr #js {:fill "#F06"})))
 
 
@@ -48,3 +48,17 @@
       (.defs)
       (.rect 100 100)
       (.attr #js {:fill "#F06"})))
+
+(when-let [svg (-> (deref core/S)
+                   :svg
+                   :svg)]
+  (let [w (.-node.clientWidth svg)
+        h (.-node.clientHeight svg)
+        ]
+    (-> svg
+        (.nested)
+        (.attr #js {:x (/ w 2) :y (/ h 2)}))))
+
+(swap! core/S component/stop)
+
+(swap! core/S component/start)
