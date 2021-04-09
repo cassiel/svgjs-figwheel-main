@@ -63,3 +63,19 @@
 (swap! core/S component/stop)
 
 (swap! core/S component/start)
+
+(svg/empty-svg!)
+
+(def s
+  (-> (deref core/S)
+      :svg
+      :svg))
+
+(-> (deref core/S)
+    :svg
+    :svg)
+
+(.attr s)
+
+
+(.innerWidth (js/$ "svg.svgmain"))

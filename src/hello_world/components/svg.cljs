@@ -13,7 +13,7 @@
               :action #(let [svg (js/SVG)]
                          (-> svg
                              (.addTo "#main")
-                             (.attr "id" "svgmain")
+                             (.addClass "svgmain")
                              #_ (.size 500 500)
                              (.size "100%" "100%")
                              )
@@ -31,4 +31,4 @@
                                 :installed? false)))))
 
 (defn empty-svg! []
-  (.empty (js/$ "svg#svgmain")))
+  (.empty (js/$ "svg.svgmain")))
