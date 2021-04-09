@@ -1,6 +1,7 @@
 (ns user
   (:require [hello-world.core :as core]
-            [com.stuartsierra.component :as component]))
+            [com.stuartsierra.component :as component]
+            [hello-world.components.svg :as svg]))
 
 (.-addTo (identity js/SVG))
 
@@ -52,9 +53,9 @@
 (when-let [svg (-> (deref core/S)
                    :svg
                    :svg)]
+  (svg/empty-svg!)
   (let [w (.-node.clientWidth svg)
-        h (.-node.clientHeight svg)
-        ]
+        h (.-node.clientHeight svg)]
     (-> svg
         (.nested)
         (.attr #js {:x (/ w 2) :y (/ h 2)}))))

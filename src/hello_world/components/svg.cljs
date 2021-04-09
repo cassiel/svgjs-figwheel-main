@@ -2,7 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]))
 
-(defrecord SVG [installed?]
+(defrecord SVG [svg installed?]
   Object
   (toString [this] (str "SVG " (seq this)))
 
@@ -13,7 +13,9 @@
               :action #(let [svg (js/SVG)]
                          (-> svg
                              (.addTo "#main")
-                             (.size 500 500)
+                             (.attr "id" "svgmain")
+                             #_ (.size 500 500)
+                             (.size "100%" "100%")
                              )
                          (assoc this
                                 :svg svg
@@ -27,3 +29,6 @@
                          (assoc this
                                 :svg nil
                                 :installed? false)))))
+
+(defn empty-svg! []
+  (.empty (js/$ "svg#svgmain")))
