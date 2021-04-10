@@ -10,6 +10,9 @@
 (js/SVG "#main")
 
 
+(svg/empty-svg!)
+
+
 (def draw (-> (js/SVG)
               (.addTo "#main")
               (.size 300 300)))
@@ -27,9 +30,35 @@
 (when-let [svg (-> (deref core/S)
                    :svg
                    :svg)]
-  (-> svg
-      (.rect "100%" "100%")
-      (.attr #js {:fill "#F06"})))
+  (svg/empty-svg!)
+  (let [n (.nested svg)]
+    (.attr n #js {:x "25%"})
+    (-> svg
+        (.rect "50%" "50%")
+        (.radius 50)
+        (.attr #js {:fill "#000"}))
+    (-> n
+        (.rect "50%" "50%")
+        (.move "25%" "25%")
+        (.move 0 0)
+        (.radius 50)
+        (.attr #js {:fill "#F06"}))))
+
+
+
+;; --- FILTER
+(when-let [svg (-> (deref core/S)
+                   :svg
+                   :svg)]
+  (svg/empty-svg!)
+  (let [n (.nested svg)]
+    (.attr n #js {:x "25%"})
+    (-> svg
+        (.rect "50%" "50%")
+        (.radius 50)
+        (.attr #js {:fill "#000"}))))
+
+;; ---
 
 
 (when-let [svg (-> (deref core/S)
@@ -60,9 +89,13 @@
         (.nested)
         (.attr #js {:x (/ w 2) :y (/ h 2)}))))
 
+;; -------
+
 (swap! core/S component/stop)
 
 (swap! core/S component/start)
+
+;; ------ Filtering
 
 (svg/empty-svg!)
 
@@ -71,6 +104,16 @@
       :svg
       :svg))
 
+
+(def r (.rect s "100%" "100%"))
+
+(.filterWith r (fn [add]
+                 (-> (.turbulence add 0.005 2)
+                     (.animate 3000)
+                     (.attr #js {;;:numOctaves 7
+                                 :baseFrequency 0.01})
+                     )))
+
 (-> (deref core/S)
     :svg
     :svg)
@@ -78,4 +121,4 @@
 (.attr s)
 
 
-(.innerWidth (js/$ "svg.svgmain"))
+(.innerHeight (js/$ "svg.svgmain"))
