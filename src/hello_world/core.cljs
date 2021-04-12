@@ -1,6 +1,7 @@
 (ns ^:figwheel-hooks hello-world.core
   (:require [com.stuartsierra.component :as component]
             [hello-world.components.dummy :as dummy]
+            [hello-world.components.resizer :as resizer]
             [hello-world.components.svg :as svg]
             #_ [cljsjs.svgjs]))
 
@@ -8,6 +9,7 @@
 
 (defn system []
   (component/system-map :dummy (dummy/map->DUMMY {})
+                        :resizer (resizer/map->RESIZER {})
                         :svg (svg/map->SVG {})))
 
 (defonce S (atom (system)))

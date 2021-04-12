@@ -25,6 +25,9 @@
 
 (swap! core/S component/start)
 
+(reset! core/S (core/system))
+
+
 (.remove (js/$ "svg"))
 
 (when-let [svg (-> (deref core/S)
@@ -122,3 +125,5 @@
 
 
 (.innerHeight (js/$ "svg.svgmain"))
+
+(component/stop (-> (deref core/S) :svg))
