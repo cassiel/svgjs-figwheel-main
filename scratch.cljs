@@ -125,5 +125,3 @@
 
 
 (.innerHeight (js/$ "svg.svgmain"))
-
-(component/stop (-> (deref core/S) :svg))

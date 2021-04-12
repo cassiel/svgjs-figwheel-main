@@ -9,8 +9,9 @@
 
 (defn system []
   (component/system-map :dummy (dummy/map->DUMMY {})
-                        :resizer (resizer/map->RESIZER {})
-                        :svg (svg/map->SVG {})))
+                        :svg (svg/map->SVG {})
+                        :resizer (component/using (resizer/map->RESIZER {})
+                                                  [:svg])))
 
 (defonce S (atom (system)))
 
