@@ -125,3 +125,6 @@
 
 
 (.innerHeight (js/$ "svg.svgmain"))
+
+(letfn [(foo [] {:A 1})]
+  #js [(foo)])
