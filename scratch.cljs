@@ -49,6 +49,16 @@
 
 
 
+(when-let [svg (-> (deref core/S)
+                   :svg
+                   :svg)]
+   (.children svg))
+
+
+(svg/empty-svg!)
+
+
+
 ;; --- FILTER
 (when-let [svg (-> (deref core/S)
                    :svg
@@ -128,3 +138,5 @@
 
 (letfn [(foo [] {:A 1})]
   #js [(foo)])
+
+(svg/calculate-square-parameters)

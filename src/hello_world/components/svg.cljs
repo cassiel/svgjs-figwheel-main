@@ -14,9 +14,7 @@
                          (-> svg
                              (.addTo "#main")
                              (.addClass "svgmain")
-                             #_ (.size 500 500)
-                             (.size "100%" "100%")
-                             )
+                             (.size "100%" "100%"))
                          (assoc this
                                 :svg svg
                                 :installed? true))))
@@ -32,3 +30,17 @@
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
+
+(defn calculate-square-parameters
+  "Calculate x, y and side length of maximum square in this SVG area."
+  []
+  (let [elem (js/$ "svg.svgmain")
+        w (.innerWidth elem)
+        h (.innerHeight elem)]
+    (if (> w h)
+      {:x (/ (- w h) 2)
+       :y 0
+       :size h}
+      {:x 0
+       :y (/ (- h w) 2)
+       :size w})))
