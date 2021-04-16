@@ -2,6 +2,9 @@
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]))
 
+;; I don't think the SVG form is stateful or intricate enough to require a
+;; component layer, so for now this is purely vestigial.
+
 (defrecord FORM [installed?]
   Object
   (toString [this] (str "FORM " (seq this)))

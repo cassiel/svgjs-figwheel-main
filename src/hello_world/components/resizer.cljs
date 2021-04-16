@@ -12,7 +12,7 @@
     (if held-value
       (alt!
         in-ch ([v] (when v (recur v)))
-        (a/timeout 500) (do (>! out-ch held-value)
+        (a/timeout 250) (do (>! out-ch held-value)
                             (recur nil)))
       (when-let [v (<! in-ch)] (recur v)))))
 
@@ -33,8 +33,9 @@
                          (-> (js/$ js/window)
                              (.on "resize" (fn [] (go (>! fast-chan :RESIZE)))))
                          (go-loop []
-                           (when-let [v (<! slow-chan)]
+                           (when-let [_ (<! slow-chan)]
                              (svg/empty-svg!)
+                             (svg/render (:svg svg))
                              (recur)))
                          (assoc this
                                 :fast-chan fast-chan
