@@ -62,23 +62,6 @@
 
 (svg/empty-svg!)
 
-
-
-;; --- FILTER
-(when-let [svg (-> (deref core/S)
-                   :svg
-                   :svg)]
-  (svg/empty-svg!)
-  (let [n (.nested svg)]
-    (.attr n #js {:x "25%"})
-    (-> svg
-        (.rect "50%" "50%")
-        (.radius 50)
-        (.attr #js {:fill "#000"}))))
-
-;; ---
-
-
 (when-let [svg (-> (deref core/S)
                    :svg
                    :svg)]
@@ -86,8 +69,6 @@
       (.symbol)
       (.rect 100 100)
       (.attr #js {:fill "#F06"})))
-
-
 
 (when-let [svg (-> (deref core/S)
                    :svg

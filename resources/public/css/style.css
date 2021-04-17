@@ -6,3 +6,15 @@ body {
 div {
     height: 100vh;
 }
+
+@font-face {
+    font-family: "Microgramma";
+    src: url("../fonts/mg.ttf")
+         format("truetype");
+}
+
+@font-face {
+    font-family: "Microgramma Bold";
+    src: url("../fonts/mg_b.otf")
+         format("opentype");
+}

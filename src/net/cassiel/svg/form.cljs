@@ -4,13 +4,17 @@
 
 (defn render
   "Functional style. Return an isolated form."
-  [size]
-  (let [g (js/SVG.G.)]
-    (-> g
-        (.circle size)
-        (.fill "#000000")
+  [container size]
+  (let [;; Gradients seem to get hoisted to the root anyway, but for clarity:
+        disc-grad  (.gradient (.root container) "linear" #(do (.stop % 0 "#303030")
+                                                              (.stop % 1 "#FFA080")))
+        text-grad (.gradient (.root container) "linear" #(do (.stop % 0 "#FF4040")
+                                                             (.stop % 1 "#202080")))]
+    (-> container
+        (.circle (* size 0.9))
+        (.fill disc-grad)
         (.center (/ size 2) (/ size 2)))
-    (-> g
+    (-> container
         (.rect (/ size 2) (/ size 2))
         (.fill "#F0F0F0")
         (.center (/ size 2) (/ size 2))
@@ -26,7 +30,15 @@
         #_ (.dmove 100 0)
         ;; This also accumulates fine!:
         (.rotate -45))
-    (-> g
-        (.plain "HELLO WORLD")
-        (.center (/ size 2) (/ size 2)))
-    g))
+    (-> container
+        (.text "HELLO\nSVG\nWORLD")
+        (.font #js {"family" "Microgramma Bold"
+                    "size" (/ size 12)
+                    "anchor" "middle"})
+        (.fill text-grad)
+        ;; .size() doesn't seem to work, although including it in a map (above)
+        ;; works fine, as does setting font-size via .attr().
+        #_ (.size 100)
+        #_ (.attr "font-size" 80)
+        (.center (/ size 2) (/ size 2))
+        (.rotate -45))))
