@@ -16,9 +16,6 @@
                             (recur nil)))
       (when-let [v (<! in-ch)] (recur v)))))
 
-;; `svg` dependency not strictly needed at the moment, since the `empty-svg!`
-;; function just calls into jQuery.
-
 (defrecord RESIZER [svg fast-chan slow-chan installed?]
   Object
   (toString [this] (str "RESIZER " (seq this)))
