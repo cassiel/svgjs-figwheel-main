@@ -147,3 +147,5 @@
 (svg/calculate-square-parameters)
 
 (js/SVG.G.)
+
+(.-cx (js/SVG.Circle. 100))

@@ -3,12 +3,14 @@
    assumed to be a square, with size provided.")
 
 (defn render
-  "Render an SVG form into `container`, a square of side `size`."
-  [container size]
-  (-> container
-      (.circle size)
-      (.fill "#000000"))
-  (-> container
-      (.rect (/ size 2) (/ size 2))
-      (.fill "#FFFFFF")
-      (.center (/ size 2) (/ size 2))))
+  "Functional style. Return an isolated form."
+  [size]
+  (let [g (js/SVG.G.)]
+    (-> g
+        (.circle size)
+        (.fill "#000000"))
+    (-> g
+        (.rect (/ size 2) (/ size 2))
+        (.fill "#FFFFFF")
+        (.center (/ size 2) (/ size 2)))
+    g))
