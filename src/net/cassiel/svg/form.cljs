@@ -23,7 +23,10 @@
         #_ (.transform #js {:translate #js [100 0]
                             :relative true})
         ;; dmove is happy:
-        (.dmove 100 0)
+        #_ (.dmove 100 0)
         ;; This also accumulates fine!:
         (.rotate -45))
+    (-> g
+        (.plain "HELLO WORLD")
+        (.center (/ size 2) (/ size 2)))
     g))
