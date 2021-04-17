@@ -1,9 +1,9 @@
-(ns ^:figwheel-hooks hello-world.core
+(ns ^:figwheel-hooks net.cassiel.svg.core
   (:require [com.stuartsierra.component :as component]
-            [hello-world.components.dummy :as dummy]
-            [hello-world.components.resizer :as resizer]
-            [hello-world.components.svg :as svg]
-            [hello-world.components.form :as form]
+            [net.cassiel.svg.components.dummy :as dummy]
+            [net.cassiel.svg.components.resizer :as resizer]
+            [net.cassiel.svg.components.svg :as svg]
+            [net.cassiel.svg.components.form :as form]
             #_ [cljsjs.svgjs]))
 
 (enable-console-print!)

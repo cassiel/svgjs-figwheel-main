@@ -1,8 +1,8 @@
-(ns hello-world.components.resizer
+(ns net.cassiel.svg.components.resizer
   (:require-macros [cljs.core.async.macros :refer [go go-loop alt!]])
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]
-            [hello-world.components.svg :as svg]
+            [net.cassiel.svg.components.svg :as svg]
             [cljs.core.async :as a :refer [>! <!]]))
 
 (defn throttle

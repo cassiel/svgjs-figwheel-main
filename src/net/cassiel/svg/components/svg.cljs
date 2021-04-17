@@ -1,7 +1,7 @@
-(ns hello-world.components.svg
+(ns net.cassiel.svg.components.svg
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]
-            [hello-world.form :as form]))
+            [net.cassiel.svg.form :as form]))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))

@@ -1,7 +1,7 @@
 (ns user
-  (:require [hello-world.core :as core]
+  (:require [net.cassiel.svg.core :as core]
             [com.stuartsierra.component :as component]
-            [hello-world.components.svg :as svg]))
+            [net.cassiel.svg.components.svg :as svg]))
 
 (.-addTo (identity js/SVG))
 
@@ -21,12 +21,13 @@
     (.rect 100 100)
     (.attr #js {:fill "#F06"}))
 
+;; =====
 (swap! core/S component/stop)
 
 (swap! core/S component/start)
 
 (reset! core/S (core/system))
-
+;; =====
 
 (.remove (js/$ "svg"))
 

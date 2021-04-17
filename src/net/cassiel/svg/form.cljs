@@ -1,4 +1,4 @@
-(ns hello-world.form
+(ns net.cassiel.svg.form
   "The actual SVG form, drawn into a provided SVG.js container
    assumed to be a square, with size provided.")
 

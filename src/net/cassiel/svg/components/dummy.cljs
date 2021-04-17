@@ -1,4 +1,4 @@
-(ns hello-world.components.dummy
+(ns net.cassiel.svg.components.dummy
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]))
 
