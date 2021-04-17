@@ -148,4 +148,7 @@
 
 (js/SVG.G.)
 
-(.-cx (js/SVG.Circle. 100))
+(let [c (js/SVG.Circle. #js {:fill "#000000"})]
+  (.size c 100)
+  (.center c 50 50)
+  (.attr c))
