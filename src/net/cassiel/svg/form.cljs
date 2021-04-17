@@ -7,4 +7,8 @@
   [container size]
   (-> container
       (.circle size)
-      (.fill "#000000")))
+      (.fill "#000000"))
+  (-> container
+      (.rect (/ size 2) (/ size 2))
+      (.fill "#FFFFFF")
+      (.center (/ size 2) (/ size 2))))

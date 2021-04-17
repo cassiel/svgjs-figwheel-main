@@ -1,7 +1,8 @@
 (ns user
   (:require [net.cassiel.svg.core :as core]
             [com.stuartsierra.component :as component]
-            [net.cassiel.svg.components.svg :as svg]))
+            [net.cassiel.svg.components.svg :as svg]
+            [net.cassiel.svg.form :as form]))
 
 (.-addTo (identity js/SVG))
 
@@ -39,8 +40,9 @@
     (.attr n #js {:x "25%"})
     (-> svg
         (.rect "50%" "50%")
+        (.fill "#888")
         (.radius 50)
-        (.attr #js {:fill "#000"}))
+        #_ (.attr #js {:fill "#000"}))
     (-> n
         (.rect "50%" "50%")
         (.move "25%" "25%")
@@ -53,7 +55,9 @@
 (when-let [svg (-> (deref core/S)
                    :svg
                    :svg)]
-   (.children svg))
+  #_ (.children svg)
+  (svg/empty-svg!)
+  (form/render svg 300))
 
 
 (svg/empty-svg!)
@@ -141,3 +145,5 @@
   #js [(foo)])
 
 (svg/calculate-square-parameters)
+
+(js/SVG.G.)
