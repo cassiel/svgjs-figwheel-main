@@ -6,10 +6,18 @@
   "Functional style. Return an isolated form."
   [container size]
   (let [;; Gradients seem to get hoisted to the root anyway, but for clarity:
-        disc-grad  (.gradient (.root container) "linear" #(do (.stop % 0 "#303030")
-                                                              (.stop % 1 "#FFA080")))
-        text-grad (.gradient (.root container) "linear" #(do (.stop % 0 "#FF4040")
-                                                             (.stop % 1 "#202080")))]
+        disc-grad (-> (.gradient (.root container) "linear" #(doto %
+                                                               (.stop 0 "#303030")
+                                                               (.stop 0.5 "#FFA080")
+                                                               (.stop 1 "#CC0000")))
+                      (.from 0.5 0.2)     ; GUESS: normalised coordinates, 0..1
+                      (.to 0.5 0.8))
+
+        text-grad (-> (.gradient (.root container) "linear" #(doto %
+                                                               (.stop 0 "#FF4040")
+                                                               (.stop 1 "#202080")))
+                      )
+        ]
     (-> container
         (.circle (* size 0.9))
         (.fill disc-grad)
@@ -24,8 +32,8 @@
         ;; - although the two rotates above accumulate fine.
         #_ (.translate 100 0)
         ;; No joy with relative: true either
-        #_ (.transform #js {:translate #js [100 0]
-                            :relative true})
+        #_ (.transform #js {:translate #js [0 200]
+                         :relative true})
         ;; dmove is happy:
         #_ (.dmove 100 0)
         ;; This also accumulates fine!:
@@ -33,7 +41,7 @@
     (-> container
         (.text "HELLO\nSVG\nWORLD")
         (.font #js {"family" "Microgramma Bold"
-                    "size" (/ size 12)
+                    "size"   (/ size 12)
                     "anchor" "middle"})
         (.fill text-grad)
         ;; .size() doesn't seem to work, although including it in a map (above)

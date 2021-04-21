@@ -22,8 +22,9 @@
 
 (defn render [svg]
   (let [{:keys [x y size]} (calculate-square-parameters)
-        svg' (-> (.nested svg) (.move x y))]
-    (form/render svg' size)))
+        svg' (-> (.nested svg) (.move x y))
+        g (.group svg')]
+    (form/render g size)))
 
 (defrecord SVG [svg installed?]
   Object

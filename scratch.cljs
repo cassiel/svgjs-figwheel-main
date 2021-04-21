@@ -23,11 +23,10 @@
     (.attr #js {:fill "#F06"}))
 
 ;; =====
-(swap! core/S component/stop)
-
-(swap! core/S component/start)
-
-(reset! core/S (core/system))
+(do
+  (swap! core/S component/stop)
+  (reset! core/S (core/system))
+  (swap! core/S component/start))
 ;; =====
 
 (.remove (js/$ "svg"))

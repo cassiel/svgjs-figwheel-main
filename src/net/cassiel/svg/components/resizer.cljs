@@ -12,7 +12,7 @@
     (if held-value
       (alt!
         in-ch ([v] (when v (recur v)))
-        (a/timeout 250) (do (>! out-ch held-value)
+        (a/timeout 100) (do (>! out-ch held-value)
                             (recur nil)))
       (when-let [v (<! in-ch)] (recur v)))))
 
