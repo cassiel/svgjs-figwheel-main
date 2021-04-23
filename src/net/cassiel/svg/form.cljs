@@ -21,32 +21,42 @@
 
         text-grad (-> (.gradient (.root container) "linear" #(doto %
                                                                (.stop 0 "#000000")
-                                                               (.stop 0.5 "#FF4040")
+                                                               (.stop 0.5 "#FFFFFF")
                                                                (.stop 1 "#202080")))
                       ;; Build a gradiant TR to BL, to allow for later form rotation.
-                      (.from 0.7 0.3)       ; Y grows downwards.
-                      (.to 0.3 0.7))
+                      (.from 0.9 0.1)       ; Y grows downwards.
+                      (.to 0.1 0.9))
+        g         (.group container)    ; I don't think the creating element matters
         ]
+    (-> g
+        (.attr #js {:fill-opacity 0})
+        (.stroke #js {:color   "#000000"
+                      :opacity 0
+                      :width   2})
+        (.animate 2000)
+        (.attr #js {:fill-opacity 1})
+        (.after #(.stroke g #js {:opacity 0.5})))
+
     (-> container
         (.circle (* size 0.9))
         (.fill disc-grad)
-        (.stroke #js {:color "#000000"
+        (.stroke #js {:color   "#000000"
                       :opacity 0.3
-                      :width 2})
+                      :width   2})
         (.center (/ size 2) (/ size 2)))
-    (-> container
+    (-> g
         (.rect (/ size 2) (/ size 2))
         (.radius 10)                    ; Rounded corners.
         (.fill rect-grad)
-        (.stroke #js {:color "#000000"
+        #_ (.stroke #js {:color   "#000000"
                       :opacity 0.5
-                      :width 2})
+                      :width   2})
         (.center (/ size 2) (/ size 2))
         ;; Rotates can be accumulated; it appears that translates can't.
         (.rotate 35)
         (.rotate 10)
         (.rotate -45))
-    (-> container
+    (-> g
         (.text "HELLO\nSVG\nWORLD")
         (.font #js {"family" "Microgramma Bold"
                     "size"   (/ size 13)
@@ -58,4 +68,9 @@
         #_ (.size (/ size 12))
         #_ (.attr "font-size" (/ size 12))
         (.center (/ size 2) (/ size 2))
-        (.rotate -45))))
+        #_ (.animate #js {:duration 2000})
+        (.animate 500 "circInOut")
+        #_ (.ease "<>")
+        (.rotate -45)
+        (.after #(println "DONE")))
+    (.addTo g container)))
