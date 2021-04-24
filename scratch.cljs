@@ -149,3 +149,5 @@
 (go (println "RD" (<! a)))
 (go (println "WR" (>! a 999)))
 (a/close! a)
+
+(nth #js [1 2 3] 0)

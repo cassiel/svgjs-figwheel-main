@@ -5,6 +5,7 @@
 (defn render
   "Functional style. Return an isolated form."
   [container size]
+  (println "render" container)
   (let [;; Gradients seem to get hoisted to the root anyway, but for clarity:
         disc-grad (-> (.gradient (.root container) "linear" #(doto %
                                                                (.stop 0 "#303030")
@@ -75,4 +76,21 @@
         #_ (.ease "<>")
         (.rotate -45)
         (.after #(println "DONE")))
+    (-> g
+        (.text "00:00:00")
+        (.font #js {"family" "Microgramma Bold"
+                    "size"   (/ size 20)
+                    "anchor" "middle"})
+        (.fill "#000000")
+        (.stroke #js {:width 0})        ; !!!!!
+        (.center (/ size 2) (* size 0.85))
+        (.clear)
+        (.text "11:11:11")
+        )
+
     (.addTo g container)))
+
+(defn tick
+  "Incoming on-or-slightly-after-the-second tick (in ms since epoch)."
+  [container ts]
+  (println "TS" container ts))

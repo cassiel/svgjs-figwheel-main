@@ -1,7 +1,9 @@
 (ns net.cassiel.svg.components.svg
+  (:require-macros [cljs.core.async.macros :refer [go go-loop alt!]])
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]
-            [net.cassiel.svg.form :as form]))
+            [net.cassiel.svg.form :as form]
+            [cljs.core.async :as a :refer [>! <!]]))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
@@ -26,7 +28,21 @@
         g (.group svg')]
     (form/render g size)))
 
-(defrecord SVG [svg installed?]
+(defn first-child [elem]
+  (first (.children elem)))
+
+(defn get-main-group
+  "The actual content renders onto a group in a sub-SVG."
+  [svg]
+  (-> svg
+      first-child                           ; inner SVG; other children are <defs> etc.
+      first-child                           ; The single child should be the group.
+      ))
+
+(defn tick [svg ts]
+  (form/tick (get-main-group svg) ts))                   ; XXX wrong container
+
+(defrecord SVG [clock svg installed?]
   Object
   (toString [this] (str "SVG " (seq this)))
 
@@ -40,6 +56,10 @@
                              (.addClass "svgmain")
                              (.size "100%" "100%"))
                          (render svg)
+                         (go-loop []
+                           (when-let [v (<! (:tick-chan clock))]
+                             (tick svg v)
+                             (recur)))
                          (assoc this
                                 :svg svg
                                 :installed? true))))

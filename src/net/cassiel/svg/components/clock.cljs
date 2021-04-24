@@ -29,10 +29,6 @@
               :action #(let [tick-chan (a/chan)]
                          (start-clock! tick-chan)
                          ;; Debug:
-                         (go-loop []
-                           (when-let [v (<! tick-chan)]
-                             (println "TICK" v (js/Date. v))
-                             (recur)))
                          (assoc this
                                 :tick-chan tick-chan
                                 :installed? true))))

@@ -12,7 +12,8 @@
 (defn system []
   (component/system-map :dummy (dummy/map->DUMMY {})
                         :clock (clock/map->CLOCK {})
-                        :svg (svg/map->SVG {})
+                        :svg (component/using (svg/map->SVG {})
+                                              [:clock])
                         :form (form/map->FORM {})
                         :resizer (component/using (resizer/map->RESIZER {})
                                                   [:svg])))
