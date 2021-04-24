@@ -35,7 +35,9 @@
                       :width   2})
         (.animate 2000)
         (.attr #js {:fill-opacity 1})
-        (.after #(.stroke g #js {:opacity 0.5})))
+        (.after #(-> g
+                     (.animate 500)
+                     (.stroke #js {:opacity 0.5}))))
 
     (-> container
         (.circle (* size 0.9))

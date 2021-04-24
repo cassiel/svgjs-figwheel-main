@@ -2,6 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.svg.components.dummy :as dummy]
             [net.cassiel.svg.components.resizer :as resizer]
+            [net.cassiel.svg.components.clock :as clock]
             [net.cassiel.svg.components.svg :as svg]
             [net.cassiel.svg.components.form :as form]
             #_ [cljsjs.svgjs]))
@@ -10,6 +11,7 @@
 
 (defn system []
   (component/system-map :dummy (dummy/map->DUMMY {})
+                        :clock (clock/map->CLOCK {})
                         :svg (svg/map->SVG {})
                         :form (form/map->FORM {})
                         :resizer (component/using (resizer/map->RESIZER {})

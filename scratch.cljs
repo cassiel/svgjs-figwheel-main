@@ -1,8 +1,10 @@
 (ns user
+  (:require-macros [cljs.core.async.macros :refer [go go-loop alt!]])
   (:require [net.cassiel.svg.core :as core]
             [com.stuartsierra.component :as component]
             [net.cassiel.svg.components.svg :as svg]
-            [net.cassiel.svg.form :as form]))
+            [net.cassiel.svg.form :as form]
+            [cljs.core.async :as a :refer [>! <!]]))
 
 (.-addTo (identity js/SVG))
 
@@ -132,3 +134,18 @@
   (.size c 100)
   (.center c 50 50)
   (.attr c))
+
+;; ---- TIME
+
+(.getTime (js/Date.))
+(.getSeconds (js/Date.))
+
+(.getMinutes (js/Date. (+ (.now js/Date) 10000)))
+
+
+;; Testing channels
+
+(def a (a/chan))
+(go (println "RD" (<! a)))
+(go (println "WR" (>! a 999)))
+(a/close! a)
