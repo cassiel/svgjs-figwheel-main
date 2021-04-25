@@ -22,11 +22,15 @@
        :y (/ (- h w) 2)
        :size w})))
 
-(defn render [svg]
+(defn render
+  "Render the form. `form-state` is a convenience atom for state (initially nil).
+   If resizing occurs, `render` will be called again with the preserved state,
+   so should clear it down if necessary."
+  [svg form-state]
   (let [{:keys [x y size]} (calculate-square-parameters)
         svg' (-> (.nested svg) (.move x y))
         g (.group svg')]
-    (form/render g size)))
+    (form/render g size form-state)))
 
 (defn first-child [elem]
   (first (.children elem)))
@@ -35,14 +39,16 @@
   "The actual content renders onto a group in a sub-SVG."
   [svg]
   (-> svg
-      first-child                           ; inner SVG; other children are <defs> etc.
+      first-child                           ; Inner SVG; other children are <defs> etc.
       first-child                           ; The single child should be the group.
       ))
 
-(defn tick [svg ts]
-  (form/tick (get-main-group svg) ts))                   ; XXX wrong container
+(defn tick
+  "Clock tick on the second (or very shortly thereafter)."
+  [svg ts form-state]
+  (form/tick (get-main-group svg) ts form-state))
 
-(defrecord SVG [clock svg installed?]
+(defrecord SVG [clock svg form-state installed?]
   Object
   (toString [this] (str "SVG " (seq this)))
 
@@ -50,18 +56,20 @@
   (start [this]
     (starting this
               :on installed?
-              :action #(let [svg (js/SVG)]
+              :action #(let [svg (js/SVG)
+                             form-state (atom nil)]
                          (-> svg
                              (.addTo "#main")
                              (.addClass "svgmain")
                              (.size "100%" "100%"))
-                         (render svg)
+                         (render svg form-state)
                          (go-loop []
                            (when-let [v (<! (:tick-chan clock))]
-                             (tick svg v)
+                             (tick svg v form-state)
                              (recur)))
                          (assoc this
                                 :svg svg
+                                :form-state form-state
                                 :installed? true))))
 
   (stop [this]
@@ -71,4 +79,5 @@
                          (.remove (js/$ "svg"))
                          (assoc this
                                 :svg nil
+                                :form-state nil
                                 :installed? false)))))

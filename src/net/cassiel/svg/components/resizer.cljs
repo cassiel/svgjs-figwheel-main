@@ -32,7 +32,7 @@
                          (go-loop []
                            (when-let [_ (<! slow-chan)]
                              (svg/empty-svg!)
-                             (svg/render (:svg svg))
+                             (svg/render (:svg svg) (:form-state svg))
                              (recur)))
                          (assoc this
                                 :fast-chan fast-chan

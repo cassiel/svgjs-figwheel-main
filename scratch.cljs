@@ -4,7 +4,9 @@
             [com.stuartsierra.component :as component]
             [net.cassiel.svg.components.svg :as svg]
             [net.cassiel.svg.form :as form]
-            [cljs.core.async :as a :refer [>! <!]]))
+            [cljs.core.async :as a :refer [>! <!]]
+            [goog.string :as gstring]
+            [goog.string.format]))
 
 (.-addTo (identity js/SVG))
 
@@ -59,6 +61,23 @@
   #_ (.children svg)
   (svg/empty-svg!)
   (form/render svg 300))
+
+
+(-> (deref core/S)
+    :svg
+    :form-state
+    deref)
+
+(def foo
+  (-> (deref core/S)
+      :svg
+      :svg
+      (.find ".CLOCK-DISPLAY")
+      first
+      ))
+
+(.clear foo)
+(.plain foo "AAAA")
 
 
 (svg/empty-svg!)
@@ -151,3 +170,5 @@
 (a/close! a)
 
 (nth #js [1 2 3] 0)
+
+(gstring/format "%d" 44)

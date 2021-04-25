@@ -1,10 +1,29 @@
 (ns net.cassiel.svg.form
   "The actual SVG form, drawn into a provided SVG.js container
-   assumed to be a square, with size provided.")
+   assumed to be a square, with size provided."
+  (:require [goog.string :as gstring]
+            [goog.string.format])
+  )
+
+(def TEXT-CLASSES ["CLOCK-A" "CLOCK-B"])
+
+(defn add-clock-fields [g size]
+  (doseq [class TEXT-CLASSES]
+    (-> g
+        (.plain "X")                    ; Needed for centre-alignment.
+        (.addClass class)
+        (.font #js {"family" "Microgramma Bold"
+                    "size"   (/ size 18)
+                    "anchor" "middle"})
+        (.fill "#FFFFFF")
+        (.stroke #js {:color "#000000" :width 1})
+        (.center (/ size 2) (* size 0.8))
+        (.clear)))
+  g)
 
 (defn render
   "Functional style. Return an isolated form."
-  [container size]
+  [container size form-state]
   (println "render" container)
   (let [;; Gradients seem to get hoisted to the root anyway, but for clarity:
         disc-grad (-> (.gradient (.root container) "linear" #(doto %
@@ -24,18 +43,17 @@
                                                                (.stop 0 "#000000")
                                                                (.stop 0.5 "#FFFFFF")
                                                                (.stop 1 "#202080")))
-                      ;; Build a gradiant TR to BL, to allow for later form rotation.
+                      ;; Build a gradient TR to BL, to allow for later form rotation.
                       (.from 0.9 0.1)       ; Y grows downwards.
                       (.to 0.1 0.9))
-        g         (.group container)    ; I don't think the creating element matters
+        g         (.group container)    ; I don't think the creating element matters.
         ]
+    (reset! form-state {:text_index 0})
     (-> g
-        (.attr #js {:fill-opacity 0})
         (.stroke #js {:color   "#000000"
                       :opacity 0
                       :width   2})
         (.animate 2000)
-        (.attr #js {:fill-opacity 1})
         (.after #(-> g
                      (.animate 500)
                      (.stroke #js {:opacity 0.5}))))
@@ -76,21 +94,39 @@
         #_ (.ease "<>")
         (.rotate -45)
         (.after #(println "DONE")))
-    (-> g
-        (.text "00:00:00")
+    (add-clock-fields g size)
+    #_ (-> g
+        (.plain "X")                    ; Needed for centre-alignment.
+        (.addClass TEXT-CLASS)
         (.font #js {"family" "Microgramma Bold"
-                    "size"   (/ size 20)
+                    "size"   (/ size 18)
                     "anchor" "middle"})
-        (.fill "#000000")
-        (.stroke #js {:width 0})        ; !!!!!
-        (.center (/ size 2) (* size 0.85))
-        (.clear)
-        (.text "11:11:11")
-        )
+        (.fill "#FFFFFF")
+        (.stroke #js {:color "#000000" :width 1})
+        (.center (/ size 2) (* size 0.8))
+        (.clear))
 
     (.addTo g container)))
 
+(defn clock-from-ts
+  "Clock display from msec timestamp"
+  [ts]
+  (let [d (js/Date. ts)
+        ss (.getSeconds d)
+        mm (.getMinutes d)
+        hh (.getHours d)]
+    (gstring/format "%02d:%02d:%02d" hh mm ss)
+    )
+  )
+
 (defn tick
   "Incoming on-or-slightly-after-the-second tick (in ms since epoch)."
-  [container ts]
-  (println "TS" container ts))
+  [container ts form-state]
+  ;;(println "TS" container ts)
+  (let [text-node (.find container (str \. (first TEXT-CLASSES)))]
+    (-> text-node
+        (.plain (clock-from-ts ts))
+
+        )
+    )
+  )
