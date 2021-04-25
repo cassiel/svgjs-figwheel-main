@@ -13,7 +13,7 @@
         (.plain "X")                    ; Needed for centre-alignment.
         (.addClass class)
         (.font #js {"family" "Microgramma Bold"
-                    "size"   (/ size 18)
+                    "size"   (/ size 16)
                     "anchor" "middle"})
         (.fill "#FFFFFF")
         (.stroke #js {:color "#000000" :width 1})
@@ -48,7 +48,7 @@
                       (.to 0.1 0.9))
         g         (.group container)    ; I don't think the creating element matters.
         ]
-    (reset! form-state {:text_index 0})
+    (reset! form-state {:text-index 0})
     (-> g
         (.stroke #js {:color   "#000000"
                       :opacity 0
@@ -122,11 +122,17 @@
 (defn tick
   "Incoming on-or-slightly-after-the-second tick (in ms since epoch)."
   [container ts form-state]
-  ;;(println "TS" container ts)
-  (let [text-node (.find container (str \. (first TEXT-CLASSES)))]
-    (-> text-node
-        (.plain (clock-from-ts ts))
-
-        )
-    )
-  )
+  (let [ts' (+ ts 1000)
+        ;; Animate to this time over 1 second.
+        text-index (:text-index (swap! form-state update :text-index #(- 1 %)))
+        this-text-node (.find container (str \. (nth TEXT-CLASSES text-index)))
+        next-text-node (.find container (str \. (nth TEXT-CLASSES (- 1 text-index))))]
+    (-> this-text-node
+        (.animate #js {:when "now" :delay 250 :duration 750})
+        (.fill #js {:opacity 0.0})
+        (.stroke #js {:opacity 0.0}))
+    (-> next-text-node
+        (.plain (clock-from-ts ts'))
+        (.animate #js {:when "now" :delay 250 :duration 750})
+        (.fill #js {:opacity 1.0})
+        (.stroke #js {:opacity 1.0}))))
