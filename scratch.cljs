@@ -172,3 +172,14 @@
 (nth #js [1 2 3] 0)
 
 (gstring/format "%d" 44)
+
+
+js/svg.path
+
+(gstring/format "AAAA")
+
+
+
+(def f #(+ % %))
+
+(f 10)
