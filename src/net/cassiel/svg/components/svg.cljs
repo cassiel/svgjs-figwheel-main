@@ -2,8 +2,8 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop alt!]])
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]
-            #_ [net.cassiel.svg.form :as form]
-            [net.cassiel.svg.grass :as form]
+            [net.cassiel.svg.form :as form]
+            #_ [net.cassiel.svg.grass :as form]
             [cljs.core.async :as a :refer [>! <!]]))
 
 (defn empty-svg! []
