@@ -35,8 +35,7 @@
 
 (deftype DemoForm []
   px/FORM
-  (render
-    [this container size form-state]
+  (render [this container size form-state]
     (let [;; Gradients seem to get hoisted to the root anyway, but for clarity:
           disc-grad (-> (.gradient (.root container) "linear" #(doto %
                                                                  (.stop 0 "#303030")
@@ -120,8 +119,7 @@
 
       (.addTo g container)))
 
-  (tick
-    [this container ts form-state]
+  (tick [this container ts form-state]
     (let [ts' (+ ts 1000)
           ;; Animate to this time over 1 second.
           text-index (:text-index (swap! form-state update :text-index #(- 1 %)))
