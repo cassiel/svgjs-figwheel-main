@@ -24,7 +24,6 @@
 (defn render
   "Functional style. Return an isolated form."
   [container size form-state]
-  (println "render" container)
   (let [;; Gradients seem to get hoisted to the root anyway, but for clarity:
         disc-grad (-> (.gradient (.root container) "linear" #(doto %
                                                                (.stop 0 "#303030")
