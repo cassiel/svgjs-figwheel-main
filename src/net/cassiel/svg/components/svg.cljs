@@ -5,9 +5,11 @@
             [net.cassiel.svg.protocols :as px]
             [net.cassiel.svg.form :as form]
             [net.cassiel.svg.grass :as grass]
+            [net.cassiel.svg.grid :as grid]
             [cljs.core.async :as a :refer [>! <!]]))
 
-(def FORM #(form/DemoForm.))
+;;(def FORM #(form/DemoForm.))
+(def FORM #(grid/GridForm.))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
