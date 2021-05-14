@@ -7,6 +7,8 @@
             [net.cassiel.svg.grass :as grass]
             [cljs.core.async :as a :refer [>! <!]]))
 
+(def FORM #(form/DemoForm.))
+
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
 
@@ -59,7 +61,7 @@
     (starting this
               :on installed?
               :action #(let [svg (js/SVG)
-                             form (form/DemoForm.)
+                             form (FORM)
                              form-state (atom nil)]
                          (-> svg
                              (.addTo "#main")
