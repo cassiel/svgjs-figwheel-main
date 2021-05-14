@@ -4,7 +4,6 @@
             [net.cassiel.svg.components.resizer :as resizer]
             [net.cassiel.svg.components.clock :as clock]
             [net.cassiel.svg.components.svg :as svg]
-            [net.cassiel.svg.components.form :as form]
             #_ [cljsjs.svgjs]))
 
 (enable-console-print!)
@@ -14,7 +13,6 @@
                         :clock (clock/map->CLOCK {})
                         :svg (component/using (svg/map->SVG {})
                                               [:clock])
-                        :form (form/map->FORM {})
                         :resizer (component/using (resizer/map->RESIZER {})
                                                   [:svg])))
 
