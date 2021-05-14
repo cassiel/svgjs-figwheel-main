@@ -1,5 +1,6 @@
 (ns net.cassiel.svg.grass
-  (:require [goog.string :as gstring]
+  (:require [net.cassiel.svg.protocols :as px]
+            [goog.string :as gstring]
             [goog.string.format]))
 
 (defn single-grass [container x h num-segs]
@@ -21,8 +22,10 @@
         (.plot (gstring/format "M%d,0 %d,%d z" x (+ x 100) h))
         (.loop true true))))
 
-(defn render [container size form-state]
-  (single-grass container 0 100 4))
+(deftype GrassForm []
+  px/FORM
+  (render [this container size form-state]
+    (single-grass container 0 100 4))
 
-(defn tick [container ts form-state]
-  (js/console.log ts))
+  (tick [this container ts form-state]
+    (js/console.log ts)))

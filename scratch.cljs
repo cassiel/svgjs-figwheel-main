@@ -193,6 +193,10 @@ js/svg.path
 
   )
 
+(deftype Fooble []
+  FORM
+  (render [this container size form-state] :OK)
+  (tick [this container ts form-state] :OK))
 
 FORM
 
