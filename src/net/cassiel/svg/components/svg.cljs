@@ -8,8 +8,8 @@
             [net.cassiel.svg.grid :as grid]
             [cljs.core.async :as a :refer [>! <!]]))
 
-(def FORM #(form/DemoForm.))
-;;(def FORM #(grid/GridForm.))
+;;(def FORM #(form/DemoForm.))
+(def FORM #(grid/GridForm.))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))

@@ -202,3 +202,16 @@ FORM
 
 
 render
+
+;; ----
+
+(js/perlinNoise 0.1)
+
+(for [x (range 10)
+      y (range 10)]
+  (js/perlinNoise x y))
+
+(map #(js/perlinNoise (/ % 10))
+     (range 10))
+
+(nth js/perlin 4)
