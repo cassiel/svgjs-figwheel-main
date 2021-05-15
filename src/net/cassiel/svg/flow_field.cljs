@@ -5,14 +5,15 @@
             [goog.string.format])
   )
 
-(defn draw-lines [container size]
-  (let [step-size (/ size 10)
+(defn draw-line [container size steps y-pos]
+
+  (let [step-size (* 1 (/ size steps))
 
         scale (fn [x] (+ (- (/ js/Math.PI 4))
                          (* x (/ js/Math.PI 2))))
 
-        rads (map #(* step-size (js/perlinNoise (/ % 9) 0)) (range 10))
-        thetas (map #(scale (js/perlinNoise (/ % 9) 100)) (range 10))
+        rads (map #(* step-size (js/perlinNoise (/ % 9) (js/Math.random))) (range steps))
+        thetas (map #(scale (js/perlinNoise (js/Math.random) (/ % 9))) (range steps))
 
         x-seq
         (map (fn [r, th] (* r (js/Math.cos th)))
@@ -20,6 +21,14 @@
 
         y-seq
         (map (fn [r, th] (* r (js/Math.sin th)))
+             rads thetas)
+
+        x-seq1
+        (map (fn [r, th] (* (* r 1.25) (js/Math.cos (* -3 th))))
+             rads thetas)
+
+        y-seq1
+        (map (fn [r, th] (* (* r 1.5) (js/Math.sin (* -3 th))))
              rads thetas)
 
         x-pos-seq
@@ -30,21 +39,42 @@
         (map (partial reduce +)
              (reductions conj [] y-seq))
 
-        positions (interleave x-pos-seq y-pos-seq)
+        x-pos-seq1
+        (map (partial reduce +)
+             (reductions conj [] x-seq1))
 
-        _ (js/console.log positions)
-        ]
+        y-pos-seq1
+        (map (partial reduce +)
+             (reductions conj [] y-seq1))
+
+        positions (interleave x-pos-seq y-pos-seq)
+        positions1 (interleave x-pos-seq1 y-pos-seq1)
+
+        _ (js/console.log positions)]
 
     (-> (.polyline container (clj->js positions))
         (.fill "none")
-        (.stroke "#000000"))
+        (.stroke "#000000")
+        (.translate 0 y-pos)
+        (.animate 2000)
+        (.ease "<>")
+        (.plot  (clj->js positions1))
+        (.loop true true)
+        )
     )
   )
 
 (deftype FlowFieldForm []
   px/FORM
   (render [this container size form-state]
-    (draw-lines container size))
+          (map (fn [i] (draw-line container size 10 (* i (/ size 10))))
+               (range 10))
+          (draw-line container size 10 (/ size 10))
+          (draw-line container size 10 (* 2 (/ size 10)))
+          (draw-line container size 10 (* 1.3 (/ size 10)))
+
+          #_(map (fn [i] (draw-line container size 10 (* i (/ size 10))))
+                 (range 10)))
 
   (tick [this container ts form-state]
     nil))
