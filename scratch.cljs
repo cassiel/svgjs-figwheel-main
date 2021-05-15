@@ -215,3 +215,15 @@ render
      (range 10))
 
 (nth js/perlin 4)
+
+(gstring/format "xxx %f xxx" 100)
+
+
+(reductions + (map #(js/perlinNoise (/ % 9)) (range 10)))
+
+
+(map (partial reduce +)
+     (reductions conj [] (map #(* 40 (js/perlinNoise (/ % 9))) (range 10))))
+
+
+(interleave [1 2 3] [:A :B :C])

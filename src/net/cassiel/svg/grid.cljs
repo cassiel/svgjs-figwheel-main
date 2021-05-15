@@ -18,13 +18,14 @@
   )
 
 (defn tile-at [g size x-pos y-pos]
-  (-> g
-      (.rect (/ size 1.4 GRID_SIZE) (/ size 1.4 GRID_SIZE))
-      (.fill "#E0E0E0")
-      (.stroke #js {:color "#000000"
-                    :width 1})
-      (.radius (/ size 10 GRID_SIZE))
-      (.center x-pos y-pos)))
+  (let [level (* 100 (js/perlinNoise x-pos y-pos))]
+    (-> g
+        (.rect (/ size 1.4 GRID_SIZE) (/ size 1.4 GRID_SIZE))
+        (.fill (gstring/format "hsl(0, 0%, %f%%)" level))
+        (.stroke #js {:color "#000000"
+                      :width 1})
+        (.radius (/ size 10 GRID_SIZE))
+        (.center x-pos y-pos))))
 
 (defn stack-at [g size x-pos]
   (let [pitch (/ size GRID_SIZE)]
