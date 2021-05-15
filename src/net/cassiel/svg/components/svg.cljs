@@ -10,8 +10,8 @@
             [cljs.core.async :as a :refer [>! <!]]))
 
 ;;(def FORM #(form/DemoForm.))
-;;(def FORM #(grid/GridForm.))
-(def FORM #(flow-field/FlowFieldForm.))
+(def FORM #(grid/GridForm.))
+;;(def FORM #(flow-field/FlowFieldForm.))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
