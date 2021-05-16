@@ -7,7 +7,7 @@
 
 (def GRID_SIZE 10)
 
-(defn make-tiles [container size form-state]
+(defn make-tiles [container size state]
   (let [pitch (/ size GRID_SIZE)
         side (-> size (/ GRID_SIZE) (* 0.8))
         margin (-> size (/ GRID_SIZE) (* 0.1))
@@ -29,12 +29,12 @@
                         :anchor "middle"
                         :fill "#808080"})
             (.center (/ pitch 2) (/ pitch 2)))
-        (swap! form-state assoc-in [:deps i] g))))
+        (swap! state assoc-in [:deps i] g))))
   )
 
-(defn tile-at [g size x-pos y-pos form-state]
+(defn tile-at [g size x-pos y-pos state]
   (let [level (* 100 (js/perlinNoise x-pos y-pos))
-        item (get-in @form-state [:deps (rand-int 10)])]
+        item (get-in @state [:deps (rand-int 10)])]
     (-> g
         (.use item)
         ;; Can't use center() on arbitrary saved items?
@@ -48,21 +48,21 @@
         (.radius (/ size 10 GRID_SIZE))
         (.center x-pos y-pos))))
 
-(defn stack-at [g size x-pos form-state]
+(defn stack-at [g size x-pos state]
   (let [pitch (/ size GRID_SIZE)]
     (doseq [y (range GRID_SIZE)
             :let [y-pos (* y pitch)]]
-      (tile-at g size x-pos y-pos form-state))))
+      (tile-at g size x-pos y-pos state))))
 
 (deftype GridForm []
   px/FORM
-  (render [this container size form-state]
+  (render [this container size state]
     (let [g (.group container)
           pitch (/ size GRID_SIZE)]
-      (make-tiles g size form-state)
+      (make-tiles g size state)
       (doseq [x (range GRID_SIZE)
               :let [x-pos (* x pitch)]]
-        (stack-at g size x-pos form-state))
+        (stack-at g size x-pos state))
       (.addTo g container)))
 
-  (tick [this container ts form-state]))
+  (tick [this container ts state]))
