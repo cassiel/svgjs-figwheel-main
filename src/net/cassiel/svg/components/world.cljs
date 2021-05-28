@@ -11,11 +11,12 @@
     (starting this
               :on installed?
               :action #(let [scene (js/THREE.Scene.)
-                             camera (js/THREE.PerspectiveCamera. 75
+                             camera #_ (js/THREE.PerspectiveCamera. 75
                                                                  (/ (.-innerWidth js/window)
                                                                     (.-innerHeight js/window))
                                                                  0.1
                                                                  1000)
+                             (js/THREE.OrthographicCamera. -2 2 -2 2 -10 10)
                              canvas (first (js/$ "<canvas/>" #js {:class "three-canvas"}))
 
                              _ (js/console.log canvas)
@@ -23,8 +24,8 @@
                              renderer (js/THREE.WebGLRenderer. #js {:canvas canvas})
 
 
-                             geom (js/THREE.BoxGeometry. 1 1 1 10 10 10)
-                             mat (js/THREE.MeshBasicMaterial. #js {:color 0x6060FF
+                             geom (js/THREE.BoxGeometry. 4 4 4 10 20 25)
+                             mat (js/THREE.MeshBasicMaterial. #js {:color 0xA0A0A0
                                                                    :wireframe true})
                              cube (js/THREE.Mesh. geom mat)
 
@@ -35,7 +36,7 @@
                         (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))
                         #_ (.appendChild (.-body js/document) (.-domElement renderer))
 
-                        (set! (.. scene -background) (js/THREE.Color. 0x404040))
+                        (set! (.. scene -background) (js/THREE.Color. 0x202020))
 
                         (set! (.. camera -position -z) 1)
 
