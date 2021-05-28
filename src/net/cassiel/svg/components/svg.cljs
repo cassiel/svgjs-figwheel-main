@@ -9,8 +9,8 @@
             [net.cassiel.svg.flow-field :as flow-field]
             [cljs.core.async :as a :refer [>! <!]]))
 
-;;(def FORM #(form/DemoForm.))
-(def FORM #(grid/GridForm.))
+(def FORM #(form/DemoForm.))
+;;(def FORM #(grid/GridForm.))
 ;;(def FORM #(flow-field/FlowFieldForm.))
 
 (defn empty-svg! []
