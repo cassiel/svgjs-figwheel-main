@@ -72,9 +72,9 @@
       (-> container
           (.circle (* size 0.9))
           (.fill disc-grad)
-          (.stroke #js {:color   "#000000"
-                        :opacity 0.3
-                        :width   2})
+          (.stroke #js {:color   "#FFFFFF"
+                        :opacity 0.1
+                        :width   30})
           (.center (/ size 2) (/ size 2)))
       (-> g
           (.rect (/ size 2) (/ size 2))

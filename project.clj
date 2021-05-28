@@ -8,7 +8,9 @@
 
                                   ;; [cljsjs/svgjs "2.2.5-0"] -- TOO OLD
                                   [com.stuartsierra/component "1.0.0"]
-                                  [net.cassiel/lifecycle "0.1.0-SNAPSHOT"]]
+                                  [net.cassiel/lifecycle "0.1.0-SNAPSHOT"]
+
+                                  [cljsjs/stats "16.0-0"]]
                    :resource-paths ["target"]
                    :clean-targets ^{:protect false} ["target"]}}
   :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main"]})
