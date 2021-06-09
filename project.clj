@@ -11,4 +11,5 @@
                                   [net.cassiel/lifecycle "0.1.0-SNAPSHOT"]]
                    :resource-paths ["target"]
                    :clean-targets ^{:protect false} ["target"]}}
+  :plugins [[com.github.liquidz/antq "RELEASE"]]
   :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main"]})
