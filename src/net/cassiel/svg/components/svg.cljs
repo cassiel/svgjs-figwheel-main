@@ -3,10 +3,10 @@
   (:require [com.stuartsierra.component :as component]
             [net.cassiel.lifecycle :refer [starting stopping]]
             [net.cassiel.svg.protocols :as px]
-            [net.cassiel.svg.form :as form]
-            [net.cassiel.svg.grass :as grass]
-            [net.cassiel.svg.grid :as grid]
-            [net.cassiel.svg.flow-field :as flow-field]
+            [net.cassiel.svg.forms.form :as form]
+            [net.cassiel.svg.forms.grass :as grass]
+            [net.cassiel.svg.forms.grid :as grid]
+            [net.cassiel.svg.forms.flow-field :as flow-field]
             [cljs.core.async :as a :refer [>! <!]]))
 
 (def FORM #(form/DemoForm.))

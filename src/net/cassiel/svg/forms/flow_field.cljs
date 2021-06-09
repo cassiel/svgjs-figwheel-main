@@ -1,4 +1,4 @@
-(ns net.cassiel.svg.flow-field
+(ns net.cassiel.svg.forms.flow-field
   "Demo flow field form."
   (:require [net.cassiel.svg.protocols :as px]
             [goog.string :as gstring]

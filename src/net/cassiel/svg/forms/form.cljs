@@ -1,4 +1,4 @@
-(ns net.cassiel.svg.form
+(ns net.cassiel.svg.forms.form
   "The actual SVG form, drawn into a provided SVG.js container
    assumed to be a square, with size provided."
   (:require [net.cassiel.svg.protocols :as px]
