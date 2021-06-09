@@ -7,24 +7,42 @@
 (deftype MaskExperiment []
   px/FORM
   (render [this container size form-state]
-    (let [g (.group container)]
+    (let [mask-grad (-> (.gradient (.root container) "linear" #(doto %
+                                                                 (.stop 0 "black")
+                                                                 (.stop 1 "white")))
+                        (.from 0 0.5)
+                        (.to 1 0.5))
+          g (.group container)]
       (-> g
           (.circle (* size 0.9))
           (.center (/ size 2) (/ size 2))
+          (.stroke #js {:color "black"
+                        :width 5})
           (.fill "#D0D0D0"))
       (-> g
-          (.rect (* size 0.7) (* size 0.7))
+          (.rect (* size 0.4) (* size 0.7))
           (.center (/ size 2) (/ size 2))
           (.rotate 30)
-          (.fill "#A0A0A0"))
+          (.fill "#F03000"))
       (let [r (-> container
                   (.rect size (* size 0.2))
                   (.center (/ size 2) (/ size 2))
-                  (.fill "#FFF"))
+                  #_ (.dy (/ size 4))
+                  (.fill mask-grad))
             m (.mask container)]
         ;; This seems to remove the drawn "r" from the display:
         (.add m r)
-        (.maskWith g m))))
+        (.maskWith g m)
+        (swap! form-state assoc
+               :RECT r
+               :SIZE size))))
 
   (tick [this container ts form-state]
-    nil))
+    (let [r (:RECT @form-state)
+          size (:SIZE @form-state)
+          xt (- (* (rand) 200) 100)
+          yt (- (* (rand) 200) 100)]
+      (-> r
+          (.animate 500)
+          (.transform #js {:translate #js [xt yt]
+                           :rotate (rand 360)})))))
