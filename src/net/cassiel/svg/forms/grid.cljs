@@ -1,4 +1,4 @@
-(ns net.cassiel.svg.grid
+(ns net.cassiel.svg.forms.grid
   "Demo grid form."
   (:require [net.cassiel.svg.protocols :as px]
             [goog.string :as gstring]
