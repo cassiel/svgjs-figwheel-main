@@ -7,11 +7,13 @@
             [net.cassiel.svg.forms.grass :as grass]
             [net.cassiel.svg.forms.grid :as grid]
             [net.cassiel.svg.forms.flow-field :as flow-field]
+            [net.cassiel.svg.forms.mask-experiment :as mask-experiment]
             [cljs.core.async :as a :refer [>! <!]]))
 
-(def FORM #(form/DemoForm.))
+;;(def FORM #(form/DemoForm.))
 ;;(def FORM #(grid/GridForm.))
 ;;(def FORM #(flow-field/FlowFieldForm.))
+(def FORM #(mask-experiment/MaskExperiment.))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
