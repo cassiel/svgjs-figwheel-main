@@ -12,7 +12,7 @@
                                                                  (.stop 1 "white")))
                         (.from 0 0.5)
                         (.to 1 0.5))
-          g (.group container)]
+          g         (.group container)]
       (-> g
           (.circle (* size 0.9))
           (.center (/ size 2) (/ size 2))
@@ -38,45 +38,53 @@
                :SIZE size))))
 
   (tick [this container ts form-state]
-    (let [r (:RECT @form-state)
+    (let [r    (:RECT @form-state)
           size (:SIZE @form-state)
-          xt (- (* (rand) 200) 100)
-          yt (- (* (rand) 200) 100)]
+          xt   (- (* (rand) 200) 100)
+          yt   (- (* (rand) 200) 100)]
       (-> r
           (.animate 500)
           (.transform #js {:translate #js [xt yt]
-                           :rotate (rand 360)})))))
+                           :rotate    (rand 360)})))))
+
+(defn slat-form
+  "Centre on (0, 0) within container."
+  [& {:keys [container size slats thickness]}]
+  (let [pitch   (/ size slats)
+        top-pos (- (* (dec slats) pitch 0.5))
+        g       (.group container)]
+    (doseq [i (range slats)]
+      (-> g
+          (.rect size (* pitch thickness))
+          (.center 0 (+ top-pos (* i pitch)))
+          (.fill "#803030")))
+    g))
+
+(defn mask-form [& {:keys [container size]}]
+  (let [g (.group container)]
+    (-> g
+        (.circle (* size 0.9))
+        (.fill "white")
+        (.center 0 0))
+    (-> g
+        (.circle (* size 0.7))
+        (.center 0 0)
+        (.fill "black"))
+    g))
 
 (deftype MaskExperiment-2 []
   px/FORM
   (render [this container size form-state]
     (let [centered (-> (.group container)
                        (.transform #js {:translate #js [(/ size 2) (/ size 2)]}))
-          mask (let [g (.group centered)]
-                 (-> g
-                     (.circle (* size 0.9))
-                     (.fill "white")
-                     (.center 0 0))
-                 (-> g
-                     (.circle (* size 0.7))
-                     (.center 0 0)
-                     (.fill "black"))
-                 g)
-          form (let [g (.group centered)]
-                 (-> g
-                     (.rect size (/ size 4))
-                     (.center 0 (/ size 4))
-                     (.fill "red"))
-                 (-> g
-                     (.rect size (/ size 4))
-                     (.center 0 (- (/ size 4)))
-                     (.fill "orange"))
-                 g
-                 )
-          m (.mask container)]
+          mask     (mask-form :container centered :size size)
+          form     (slat-form :container centered
+                              :size (* size 0.8)
+                              :slats 3
+                              :thickness 0.9)
+          m        (.mask container)]
       (.add m mask)
-      (.maskWith form m)
-      ))
+      (.maskWith form m)))
 
   (tick [this container ts form-state]
     nil))
