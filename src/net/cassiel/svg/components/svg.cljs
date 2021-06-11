@@ -13,7 +13,7 @@
 ;;(def FORM #(form/DemoForm.))
 ;;(def FORM #(grid/GridForm.))
 ;;(def FORM #(flow-field/FlowFieldForm.))
-(def FORM #(mask-experiment/MaskExperiment.))
+(def FORM #(mask-experiment/MaskExperiment-2.))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))

@@ -3,7 +3,7 @@
   (:require [net.cassiel.svg.core :as core]
             [com.stuartsierra.component :as component]
             [net.cassiel.svg.components.svg :as svg]
-            [net.cassiel.svg.form :as form]
+            [net.cassiel.svg.forms.form :as form]
             [cljs.core.async :as a :refer [>! <!]]
             [goog.string :as gstring]
             [goog.string.format]))
@@ -227,3 +227,9 @@ render
 
 
 (interleave [1 2 3] [:A :B :C])
+
+;; ----
+
+(identity :<)
+
+[:< :* :* :* :< :* :* :* :* :> :>]

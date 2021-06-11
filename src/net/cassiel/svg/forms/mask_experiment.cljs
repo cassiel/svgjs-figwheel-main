@@ -4,7 +4,7 @@
             [goog.string :as gstring]
             [goog.string.format]))
 
-(deftype MaskExperiment []
+(deftype MaskExperiment-1 []
   px/FORM
   (render [this container size form-state]
     (let [mask-grad (-> (.gradient (.root container) "linear" #(doto %
@@ -46,3 +46,37 @@
           (.animate 500)
           (.transform #js {:translate #js [xt yt]
                            :rotate (rand 360)})))))
+
+(deftype MaskExperiment-2 []
+  px/FORM
+  (render [this container size form-state]
+    (let [centered (-> (.group container)
+                       (.transform #js {:translate #js [(/ size 2) (/ size 2)]}))
+          mask (let [g (.group centered)]
+                 (-> g
+                     (.circle (* size 0.9))
+                     (.fill "white")
+                     (.center 0 0))
+                 (-> g
+                     (.circle (* size 0.7))
+                     (.center 0 0)
+                     (.fill "black"))
+                 g)
+          form (let [g (.group centered)]
+                 (-> g
+                     (.rect size (/ size 4))
+                     (.center 0 (/ size 4))
+                     (.fill "red"))
+                 (-> g
+                     (.rect size (/ size 4))
+                     (.center 0 (- (/ size 4)))
+                     (.fill "orange"))
+                 g
+                 )
+          m (.mask container)]
+      (.add m mask)
+      (.maskWith form m)
+      ))
+
+  (tick [this container ts form-state]
+    nil))
