@@ -57,19 +57,26 @@
       (-> g
           (.rect size (* pitch thickness))
           (.center 0 (+ top-pos (* i pitch)))
-          (.fill "#803030")))
+          (.fill "black")))
     g))
 
-(defn mask-form [& {:keys [container size]}]
-  (let [g (.group container)]
-    (-> g
-        (.circle (* size 0.9))
-        (.fill "white")
-        (.center 0 0))
-    (-> g
-        (.circle (* size 0.7))
-        (.center 0 0)
-        (.fill "black"))
+(defn mask-form [& {:keys [container size rings thickness]}]
+  (let [pitch            (/ size (* rings 2))
+        inner-mid-radius (/ pitch 2)
+        ring-thickness   (* pitch thickness)
+        g                (.group container)]
+    (doseq [i    (reverse (range rings))
+            :let [mid-radius (+ inner-mid-radius (* i pitch))
+                  inner-radius (- mid-radius (/ ring-thickness 2))
+                  outer-radius (+ mid-radius (/ ring-thickness 2))]]
+      (-> g
+          (.circle (* outer-radius 2))
+          (.center 0 0)
+          (.fill "white"))
+      (-> g
+          (.circle (* inner-radius 2))
+          (.center 0 0)
+          (.fill "black")))
     g))
 
 (deftype MaskExperiment-2 []
@@ -77,11 +84,14 @@
   (render [this container size form-state]
     (let [centered (-> (.group container)
                        (.transform #js {:translate #js [(/ size 2) (/ size 2)]}))
-          mask     (mask-form :container centered :size size)
+          mask     (mask-form :container centered
+                              :size (* size 1.5)
+                              :rings 20
+                              :thickness 0.6)
           form     (slat-form :container centered
-                              :size (* size 0.8)
-                              :slats 3
-                              :thickness 0.9)
+                              :size (* size 0.9)
+                              :slats 5
+                              :thickness 0.4)
           m        (.mask container)]
       (.add m mask)
       (.maskWith form m)))
