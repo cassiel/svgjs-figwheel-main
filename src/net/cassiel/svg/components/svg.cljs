@@ -13,7 +13,7 @@
 ;;(def FORM #(form/DemoForm.))
 ;;(def FORM #(grid/GridForm.))
 ;;(def FORM #(flow-field/FlowFieldForm.))
-(def FORM #(mask-experiment/MaskExperiment-2.))
+(def FORM #(mask-experiment/MaskExperiment-1.))
 
 (defn empty-svg! []
   (.empty (js/$ "svg.svgmain")))
@@ -38,7 +38,13 @@
    so should clear it down if necessary."
   [svg form form-state]
   (let [{:keys [x y size]} (calculate-square-parameters)
-        svg' (-> (.nested svg) (.move x y))
+
+        ;; A `.nested` will crop top and left but not bottom and right. We could
+        ;; manually crop to fix that, but let's just use a group with a transform and not
+        ;; worry about overflow.
+        svg' (-> (.group svg)
+                 (.transform #js {:translate #js [x y]}))
+
         g (.group svg')]
     (px/render form g size form-state)))
 

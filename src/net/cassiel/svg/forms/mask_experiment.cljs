@@ -13,25 +13,31 @@
                         (.from 0 0.5)
                         (.to 1 0.5))
           g         (.group container)]
+      ;; Grey circle with black border:
       (-> g
           (.circle (* size 0.9))
           (.center (/ size 2) (/ size 2))
           (.stroke #js {:color "black"
                         :width 5})
           (.fill "#D0D0D0"))
+
+      ;; Orange rectangle:
       (-> g
           (.rect (* size 0.4) (* size 0.7))
           (.center (/ size 2) (/ size 2))
           (.rotate 30)
           (.fill "#F03000"))
+
+      ;; Masking rectangle, with gradient (created in the container rather than `g`
+      ;; for no good reason, except perhaps as a convention):
       (let [r (-> container
                   (.rect size (* size 0.2))
                   (.center (/ size 2) (/ size 2))
                   #_ (.dy (/ size 4))
                   (.fill mask-grad))
             m (.mask container)]
-        ;; This seems to remove the drawn "r" from the display:
         (.add m r)
+        ;; This seems to remove the drawn "r" mask form from the display:
         (.maskWith g m)
         (swap! form-state assoc
                :RECT r
