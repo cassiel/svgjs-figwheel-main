@@ -1,0 +1,32 @@
+{:deps {lread/status-line {:git/url "https://github.com/lread/status-line.git"
+                           :sha "35ed39645038e81b42cb15ed6753b8462e60a06d"}}
+
+ :tasks {:requires ([clojure.string :as string]
+                    [lread.status-line :as status]
+                    [babashka.fs :as fs])
+         :init (do (def staging-dir "_STAGING")
+                   (def cljs-dir (str staging-dir "/cljs-out")))
+         :enter (let [{:keys [name]} (current-task)]
+                  (status/line :head "TASK %s %s" name (string/join " " *command-line-args*)))
+         :leave (let [{:keys [name]} (current-task)]
+                  (status/line :detail "\nTASK %s done." name))
+
+         -lein-build (do (shell "lein clean")
+                         (shell "lein fig:ws"))
+
+         stage {:depends [#_ -lein-build]
+                :task (do (fs/delete-tree staging-dir)
+                          (fs/create-dir staging-dir)
+                          (doseq [f (fs/glob "resources/public" "*")]
+                            (println f)
+                            #_ (fs/copy-tree f staging-dir))
+                          #_ (shell {:dir cljs-dir
+                                  :in (slurp "dev-main.js")
+                                  :out "_tmp.js"})
+                          )}
+
+         hello {:task (shell {:in (slurp "Makefile")
+                              :out "MakefileTEMP"}
+                             "sed -e s/S/***S***/")}
+
+         }}
