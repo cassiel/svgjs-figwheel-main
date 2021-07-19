@@ -4,7 +4,7 @@
                  [org.clojure/core.async "1.3.618"]
                  [com.stuartsierra/component "1.0.0"]
                  [net.cassiel/lifecycle "0.1.0-SNAPSHOT"]]
-  :resource-paths ["target"]
+  :resource-paths ["target" "resources"]
   :clean-targets  ^{:protect false} ["target"]
   :plugins [[com.github.liquidz/antq "RELEASE"]]
   :aliases {"fig"    ["trampoline" "run" "-m" "figwheel.main"]
