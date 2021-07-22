@@ -9,8 +9,8 @@
          :leave (let [{:keys [name]} (current-task)]
                   (status/line :detail "\nTASK %s done." name))
 
-         -staging-dir "_STAGING"
-         -cljs-dir (str -staging-dir "/cljs-out")
+         -staging-dir (fs/path "_STAGING")
+         -cljs-dir (fs/path -staging-dir "cljs-out")
 
          -clean {:task (shell "lein clean")}
 
@@ -20,10 +20,10 @@
          stage {:depends [-staging-dir -cljs-dir -lein-build]
                 :task (do (fs/delete-tree -staging-dir)
                           (fs/create-dir -staging-dir)
-                          (doseq [f (fs/list-dir "resources/public")
+                          (doseq [f (fs/list-dir (fs/path "resources" "public"))
                                   :let [basename (fs/file-name f)]]
                             (fs/copy-tree f (fs/path -staging-dir basename)))
-                          (fs/copy-tree "target/public/cljs-out"
+                          (fs/copy-tree (fs/path "target" "public" "cljs-out")
                                         (fs/path -staging-dir "cljs-out"))
                           (run '-clean))
                 }
